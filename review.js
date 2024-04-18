@@ -52,22 +52,10 @@ async function methodTwo() {
   console.log("This code block is finished.");
 }
 
-async function getData() {
-  try {
-    const request = await fetch("http://www.boredapi.com/api/activity/");
-    const result = await request.json();
-    console.log(result);
-  } catch (err) {
-    console.log("Something went wrong");
-  }
-
-  console.log("This code block is finished");
-}
-
-// getData();
 // methodTwo();
 // methodOne();
 
+// You might see some complex objects like this or more complex with more data.
 let obj = {
   food: ["Apple", "Orange", "Banana"],
   visitedRooms: [],
@@ -126,22 +114,54 @@ const arrObjects = [
   },
 ];
 
+// Map - built in array method that allows us to transform our array elements.
+// In this example, I am breaking down and making a list of the 'character' objects from each big object
 arrObjects.map((obj) => {
   return obj.character;
 });
 
+// Foreach - built in array method that allows us to iterate through our array elements.
+// In this example, I am going through each big object and seeing if the weapon is equal to 'pen'. If so, then I am returning that weapon ("red")
+// I prefer to use a standard for...of loop or a base for loop to iterate through an array because foreach cannot return an element.
 arrObjects.forEach((obj) => {
-        if (obj.weapon === "pen") {
-            return obj.weapon
-        }
-      });
+  if (obj.weapon === "pen") {
+      console.log(obj.weapon)
+  }
+});
 
+// Preferred method to iterate through an array.
 function doSomethingWithArray() {
-  for (let obj of arrObjects) {
-    if (obj.character.name === "Scott") {
-        return obj.character.hairColor
+  for (let obj of arrObjects) { // Looping through the array of objects.
+    if (obj.character.name === "Scott") { // Checking to see if the object character name is Scott
+        return obj.character.hairColor // If so, return Scott's hair color. If this key does not exist, it will return undefined
     }
   }
 }
 let result = doSomethingWithArray();
-console.log(result);
+
+
+// Look at our index.html file + script.js for a more practical example of this where we get data and do something with it other than just console logging
+async function getData() {
+    try {
+      const request = await fetch("https://pokeapi.co/api/v2/pokemon/ditto");
+      const result = await request.json();
+      const abilities = result.abilities;
+
+      let urlFromObj = null;
+      for (let ability of abilities) {
+        if (ability.ability.name === "limber") {
+            urlFromObj = ability.ability.url
+        }
+      }
+
+      // Now that we have the url that corresponds to the name 'limber' inside of this , do something with this.
+      console.log(urlFromObj);
+    } catch (err) {
+      console.log("Something went wrong");
+    }
+  
+    console.log("This code block is finished");
+}
+
+
+getData();
